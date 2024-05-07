@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Item;
 
 use DB;
 
@@ -71,8 +73,20 @@ class UserController extends Controller
     {
         $user = User::find(3)->customer->lname;
         $customer = Customer::find(3)->user->email;
-        
-        dd($customer,$user);
+        $customer_orders = Customer::find(2)->orders;
+        // foreach($customer_orders as $orders) {
+        //     dump($orders->orderinfo_id, $orders->date_placed);
+        // }
+        $order = Order::find(8)->customer->lname;
+        $orders = Order::find(3)->items;
+        // foreach($orders as $item) {
+        //     dump($item->description);
+        // }
+        $items = Item::find(11)->orders;
+        foreach($items as $order) {
+            dump($order->date_placed, $order->orderinfo_id);
+        }
+        // dd($orders);
         $customer = Customer::where('user_id', Auth::id())->first();
         $orders = DB::table('customer as c')
             ->join('orderinfo as o', 'o.customer_id', '=', 'c.customer_id')
