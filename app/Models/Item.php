@@ -22,4 +22,9 @@ class Item extends Model
             'orderinfo_id'
         )->withPivot('quantity');
     }
+
+    public function stock()
+    {
+        return $this->hasOne(Stock::class, 'item_id');
+    }
 }
