@@ -254,12 +254,17 @@ class ItemController extends Controller
     	    foreach($cart->items as $items){
         		$id = $items['item']['item_id'];
                 // dd($id);
-                DB::table('orderline')->insert(
-                    ['item_id' => $id, 
-                     'orderinfo_id' => $order->orderinfo_id,
-                     'quantity' => $items['qty']
-                    ]
-                    );
+                // DB::table('orderline')->insert(
+                //     ['item_id' => $id, 
+                //      'orderinfo_id' => $order->orderinfo_id,
+                //      'quantity' => $items['qty']
+                //     ]
+                //     );
+                    $order->items()->attach($order->orderinfo_id, [
+                        'quantity' => $items['qty'],
+                        'item_id' => $id,
+                    ]);
+               
         		
                 $stock = Stock::find($id);
           		$stock->quantity = $stock->quantity - $items['qty'];

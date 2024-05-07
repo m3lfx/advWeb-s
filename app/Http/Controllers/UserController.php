@@ -72,6 +72,7 @@ class UserController extends Controller
     public function getProfile()
     {
         $user = User::find(3)->customer->lname;
+        $user_orders = Customer::has('orders')->get();
         $customer = Customer::find(3)->user->email;
         $customer_orders = Customer::find(2)->orders;
         // foreach($customer_orders as $orders) {
@@ -79,14 +80,14 @@ class UserController extends Controller
         // }
         $order = Order::find(8)->customer->lname;
         $orders = Order::find(3)->items;
-        // foreach($orders as $item) {
-        //     dump($item->description);
-        // }
-        $items = Item::find(11)->orders;
-        foreach($items as $order) {
-            dump($order->date_placed, $order->orderinfo_id);
+        foreach($orders as $item) {
+            dump($item->description, $item->pivot->quantity);
         }
-        // dd($orders);
+        $items = Item::find(11)->orders;
+        // foreach($items as $order) {
+        //     dump($order->date_placed, $order->orderinfo_id, );
+        // }
+        // dd($items);
         $customer = Customer::where('user_id', Auth::id())->first();
         $orders = DB::table('customer as c')
             ->join('orderinfo as o', 'o.customer_id', '=', 'c.customer_id')
