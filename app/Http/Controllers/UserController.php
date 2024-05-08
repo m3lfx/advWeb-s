@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Item;
+use App\DataTables\OrderDataTable;
+use App\DataTables\UsersDataTable;
 
 use DB;
 
@@ -69,35 +71,46 @@ class UserController extends Controller
         }
     }
 
-    public function getProfile()
+    public function getProfile(OrderDataTable $dataTable)
     {
-        $user = User::find(3)->customer->lname;
-        $user_orders = Customer::has('orders')->get();
-        $customer = Customer::find(3)->user->email;
-        $customer_orders = Customer::find(2)->orders;
+        
+        $user = User::find(3)->customer;
+        // dd($user->lname, $user->addressline);
+        // ->lname;
+        // $user_orders = Customer::has('orders')->get();
+        // $customer = Customer::find(3)->user->email;
+        // $customer_orders = Customer::find(2)->orders;
         // foreach($customer_orders as $orders) {
         //     dump($orders->orderinfo_id, $orders->date_placed);
         // }
-        $order = Order::find(8)->customer->lname;
-        $orders = Order::find(3)->items;
-        foreach($orders as $item) {
-            dump($item->description, $item->pivot->quantity);
+        // $order = Order::find(8)->customer->lname;
+        // $orders = Order::find(3)->items;
+        // $orders = Order::all();
+        $orders = Order::with('customer')->get();
+        foreach($orders as $order) {
+            dump($order->customer->fname);
         }
-        $items = Item::find(11)->orders;
+        // $items = Item::find(11)->orders;
         // foreach($items as $order) {
         //     dump($order->date_placed, $order->orderinfo_id, );
         // }
         // dd($items);
-        $customer = Customer::where('user_id', Auth::id())->first();
-        $orders = DB::table('customer as c')
-            ->join('orderinfo as o', 'o.customer_id', '=', 'c.customer_id')
-            ->join('orderline as ol', 'o.orderinfo_id', '=', 'ol.orderinfo_id')
-            ->join('item as i', 'ol.item_id', '=', 'i.item_id')
-            ->where('c.user_id', Auth::id())
-            ->select('o.orderinfo_id', 'o.date_placed', 'o.status', DB::raw("SUM(ol.quantity * i.sell_price) as total"))
-            ->groupBy('o.orderinfo_id', 'o.date_placed', 'o.status')->get();
-        // dd($orders);
-        // return view('user.profile',compact('orders'));
+        // $customer = Customer::where('user_id', Auth::id())->first();
+        // $orders = DB::table('customer as c')
+        //     ->join('orderinfo as o', 'o.customer_id', '=', 'c.customer_id')
+        //     ->join('orderline as ol', 'o.orderinfo_id', '=', 'ol.orderinfo_id')
+        //     ->join('item as i', 'ol.item_id', '=', 'i.item_id')
+        //     ->where('c.user_id', Auth::id())
+        //     ->select('o.orderinfo_id', 'o.date_placed', 'o.status', DB::raw("SUM(ol.quantity * i.sell_price) as total"))
+        //     ->groupBy('o.orderinfo_id', 'o.date_placed', 'o.status')->get();
+        // // dd($orders);
+        // // return view('user.profile',compact('orders'));
+        // $customers = Customer::all();
+        // foreach($customers as $customer) {
+
+        //     dump($customer->orders);
+        // }
+        return $dataTable->render('user.profile');
         // return 'user profile';
     }
 }
