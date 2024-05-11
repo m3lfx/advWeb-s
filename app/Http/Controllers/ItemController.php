@@ -27,8 +27,8 @@ class ItemController extends Controller
     {
         // $items = Item::all();
         // $items = DB::table('item')->join('stock', 'item.item_id', '=', 'stock.item_id')->get();
-        $items = Item::has('stock')->get();
-        dd($items);
+        // $items = Item::has('stock')->get();
+        // dd($items);
         return view('item.index', compact('items'));
     }
 
@@ -170,7 +170,7 @@ class ItemController extends Controller
     public function getItems()
     {
         // $items = DB::table('item')->join('stock', 'item.item_id', '=', 'stock.item_id')->get();
-        $items = Item::has('stock')->get();
+        $items = Item::withWhereHas('stock')->get();
         // dd($items);
         // $items = Item::all();
         return view('shop.index', compact('items'));

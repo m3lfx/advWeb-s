@@ -14,6 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use DB;
 use Auth;
+use Debugbar;
 
 class UsersDataTable extends DataTable
 {
@@ -25,7 +26,7 @@ class UsersDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()->query($query)
+        return datatables()->eloquent($query)
             ->addColumn('action',  function ($row) {
                 $actionBtn = '<a href="#!"  class="btn details btn-primary">Details</a>';
                 return $actionBtn;
@@ -42,18 +43,19 @@ class UsersDataTable extends DataTable
     public function query()
     {
         // return $model->newQuery();
-        $users = DB::table('users')
-            ->join('customer', 'users.id', '=', 'customer.user_id')
-            ->select(
-                'users.id',
-                'users.name',
-                'users.email',
-                'customer.addressline',
-                'customer.phone',
-                'users.created_at'
-            )
-            ->where('users.id', '<>', Auth::id());
-        //  dd($users);
+        // $users = DB::table('users')
+        //     ->join('customer', 'users.id', '=', 'customer.user_id')
+        //     ->select(
+        //         'users.id',
+        //         'users.name',
+        //         'users.email',
+        //         'customer.addressline',
+        //         'customer.phone',
+        //         'users.created_at'
+        //     )
+        //     ->where('users.id', '<>', Auth::id());
+            $users = User::with('customer')->where('id', '<>', Auth::id());
+        //  Debugbar::info($users);
         return $users;
     }
 
@@ -85,17 +87,16 @@ class UsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-            Column::make('id')->title('customer id'),
+            Column::make('customer.user_id'),
             Column::make('name'),
             Column::make('email'),
-            Column::make('addressline')->title('address'),
-            Column::make('phone'),
+            Column::make('customer.addressline')->title('address'),
             Column::make('created_at'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center')
         ];
     }
 

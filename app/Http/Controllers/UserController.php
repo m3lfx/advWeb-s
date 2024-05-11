@@ -10,8 +10,9 @@ use App\Models\Order;
 use App\Models\Item;
 use App\DataTables\OrderDataTable;
 use App\DataTables\UsersDataTable;
-
+use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
 use DB;
+use Debugbar;
 
 class UserController extends Controller
 {
@@ -74,25 +75,32 @@ class UserController extends Controller
     public function getProfile(OrderDataTable $dataTable)
     {
         
-        $user = User::find(3)->customer;
+        // $user = User::find(3)->customer;
+        // Debugbar::info($user->lname);
         // dd($user->lname, $user->addressline);
         // ->lname;
         // $user_orders = Customer::has('orders')->get();
         // $customer = Customer::find(3)->user->email;
         // $customer_orders = Customer::find(2)->orders;
+        // Debugbar::info($customer_orders);
+        // // // dd($customer_orders);
         // foreach($customer_orders as $orders) {
         //     dump($orders->orderinfo_id, $orders->date_placed);
         // }
-        // $order = Order::find(8)->customer->lname;
+        // $order = Order::find(8)->customer;
+        // // dd($order);
+        // Debugbar::info($order);
         // $orders = Order::find(3)->items;
-        // $orders = Order::all();
-        $orders = Order::with('customer')->get();
-        foreach($orders as $order) {
-            dump($order->customer->fname);
-        }
-        // $items = Item::find(11)->orders;
-        // foreach($items as $order) {
-        //     dump($order->date_placed, $order->orderinfo_id, );
+        
+        // $orders = Order::with('customer')->get();
+        // foreach($orders as $order) {
+        //     dump($order->customer->fname);
+        // }
+        // $items = Order::find(10)->items;
+        // Debugbar::info($items);
+        // foreach($items as $item) {
+        //     Debugbar::info($item->description, $item->sell_price);
+            
         // }
         // dd($items);
         // $customer = Customer::where('user_id', Auth::id())->first();
@@ -106,10 +114,12 @@ class UserController extends Controller
         // // dd($orders);
         // // return view('user.profile',compact('orders'));
         // $customers = Customer::all();
-        // foreach($customers as $customer) {
+        $orders = Order::with('customer')->get();
+        Debugbar::info($orders);
+        foreach($orders as $order) {
 
-        //     dump($customer->orders);
-        // }
+            Debugbar::info($order->customer);
+        }
         return $dataTable->render('user.profile');
         // return 'user profile';
     }
