@@ -45,7 +45,7 @@ class AdminOrdersDataTable extends DataTable
             // DebugBar::info($row);
             return number_format($order->items->map(function($item) {
                 return  $item->pivot->quantity * $item->sell_price;
-            })->sum(),2);
+            })->sum(), 2);
         })
         ->addColumn('items', function ($order) {
             return  $order->items->map(function($item) {
@@ -69,9 +69,11 @@ class AdminOrdersDataTable extends DataTable
         // ->groupBy('o.orderinfo_id', 'o.date_placed','o.orderinfo_id','c.fname', 'c.lname', 'c.addressline', 'o.status');
         // ->get();
         // dd($orders);
-        $orders = Order::with(['customer','items'])->whereHas('items');
-        $order_items = Order::with(['customer','items'])->whereHas('items')->get();
-        DebugBar::info($order_items);
+        $orders = Order::with(['customer','items']);
+        
+        // ->whereHas('items');
+        // $order_items = Order::with(['customer','items'])->get();
+        // Debugbar::info($order_items);
         return $orders;
     }
 
