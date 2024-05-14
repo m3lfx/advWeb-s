@@ -114,12 +114,12 @@ class UserController extends Controller
         // // dd($orders);
         // // return view('user.profile',compact('orders'));
         // $customers = Customer::all();
-        $orders = Order::with('customer')->get();
-        Debugbar::info($orders);
-        foreach($orders as $order) {
+        // $orders = Order::with('customer')->get();
+        // Debugbar::info($orders);
+        // foreach($orders as $order) {
 
-            Debugbar::info($order->customer);
-        }
+        //     Debugbar::info($order->customer);
+        // }
         return $dataTable->render('user.profile');
         // return 'user profile';
     }

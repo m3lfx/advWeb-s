@@ -15,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use DB;
 use Auth;
-use DebugBar;
+use Debugbar;
 
 class OrderDataTable extends DataTable
 {
@@ -28,9 +28,9 @@ class OrderDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-        ->collection($query)
+        ->eloquent($query)
         ->addColumn('action',  function($row){
-            $actionBtn = '<a href="' . route('order.orderDetails', $row->orderinfo_id) . '"  class="btn details btn-primary">Details</a>';
+            $actionBtn = '<a href="' .'"  class="btn details btn-primary">Details</a>';
             return $actionBtn;
         })
         ->addColumn('total', function ($order) {
@@ -53,16 +53,16 @@ class OrderDataTable extends DataTable
      */
     public function query()
     {
-        $orders = DB::table('customer as c')->join('orderinfo as o','o.customer_id', '=', 'c.customer_id')
-        ->join('orderline as ol','o.orderinfo_id', '=', 'ol.orderinfo_id')
-        ->join('item as i','ol.item_id', '=', 'i.item_id')
-        ->where('c.user_id', Auth::id())
-        ->select('o.orderinfo_id', 'o.date_placed', DB::raw("SUM(ol.quantity * i.sell_price) as total"))
-        ->groupBy('o.orderinfo_id', 'o.date_placed')->get();
+        // $orders = DB::table('customer as c')->join('orderinfo as o','o.customer_id', '=', 'c.customer_id')
+        // ->join('orderline as ol','o.orderinfo_id', '=', 'ol.orderinfo_id')
+        // ->join('item as i','ol.item_id', '=', 'i.item_id')
+        // ->where('c.user_id', Auth::id())
+        // ->select('o.orderinfo_id', 'o.date_placed', DB::raw("SUM(ol.quantity * i.sell_price) as total"))
+        // ->groupBy('o.orderinfo_id', 'o.date_placed')->get();
 // dd($orders);
-        // $orders = Order::with(['customer','items'])->whereHas('customer', function($query) {
-        //     $query->where('user_id', Auth::id());
-        // })->orderBy('date_placed', 'DESC')->get();
+        $orders = Order::with(['customer','items'])->whereHas('customer', function($query) {
+            $query->where('user_id', Auth::id());
+        })->orderBy('date_placed', 'DESC');
         DebugBar::info($orders);
         
         return $orders;
