@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,5 +55,6 @@ Route::prefix('admin')->group(function () {
    });
    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
    Route::get('logout', [UserController::class, 'logout'])->middleware('auth')->name('logout');
-   
+   Route::get('search', [SearchController::class, 'search'])->name('search');
    Route::resource('items', ItemController::class);
+   Route::resource('customers', CustomerController::class);
