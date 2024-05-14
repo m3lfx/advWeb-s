@@ -20,10 +20,16 @@ Route::get('shopping-cart', [ItemController::class, 'getCart'])->name('getCart')
 
 
 
-Route::get('/admin/customers',[DashboardController::class, 'getCustomers'])->name('admin.customers');
-Route::get('/admin/users',[DashboardController::class,'getUsers'])->name('admin.users');
-Route::get('/admin/orders',[DashboardController::class,'getOrders'])->name('admin.orders');
-
+// Route::get('/admin/customers',[DashboardController::class, 'getCustomers'])->name('admin.customers');
+// Route::get('/admin/users',[DashboardController::class,'getUsers'])->name('admin.users');
+// Route::get('/admin/orders',[DashboardController::class,'getOrders'])->name('admin.orders');
+Route::group(['prefix' => 'admin',  'middleware' => 'role:admin,customer'], function () {
+    Route::get('orders/{id}', [OrderController::class, 'processOrder'])->name('admin.orderDetails');
+    Route::post('order/{id}', [OrderController::class, 'orderUpdate'])->name('admin.orderUpdate');
+    Route::get('customers', [DashboardController::class, 'getCustomers'])->name('admin.customers');
+    Route::get('users', [DashboardController::class, 'getUsers'])->name('admin.users');
+    Route::get('orders', [DashboardController::class, 'getOrders'])->name('admin.orders');
+});
 Route::prefix('admin')->group(function () {
     
     Route::get('/orders/{id}',[OrderController::class,'processOrder'])->name('admin.orderDetails');

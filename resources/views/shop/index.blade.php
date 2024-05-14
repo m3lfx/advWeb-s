@@ -3,23 +3,23 @@
     laravel shopping cart
 @endsection
 @section('content')
-    @if (Session::has('success'))
+    {{-- @if (Session::has('success'))
         <div class="alert alert-primary alert-dismissible  show" role="alert">
             <strong>{{ Session::get('success') }}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    @endif
-    {{-- @include('layouts.flash-messages') --}}
-    @if (Session::has('message'))
+    @endif --}}
+    @include('layouts.flash-messages')
+    {{-- @if (Session::has('message'))
         <div class="alert alert-danger alert-dismissible  show" role="alert">
             <strong>{{ Session::get('message') }}</strong>
             <button type="button" class="close" data-dismiss="alert " aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    @endif
+    @endif --}}
     @foreach ($items->chunk(4) as $itemChunk)
         <div class="row">
             @foreach ($itemChunk as $item)
