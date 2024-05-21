@@ -15,6 +15,9 @@ use DB;
 use Session;
 use Carbon\Carbon;
 use Auth;
+use Excel;
+use App\Imports\ItemImport;
+use App\Imports\ItemStockImport;
 
 class ItemController extends Controller
 {
@@ -25,7 +28,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        // $items = Item::all();
+        $items = Item::all();
         // $items = DB::table('item')->join('stock', 'item.item_id', '=', 'stock.item_id')->get();
         // $items = Item::has('stock')->get();
         // dd($items);
@@ -287,5 +290,28 @@ class ItemController extends Controller
         DB::commit();
         Session::forget('cart');
         return redirect('/')->with('success','Successfully Purchased Your Products!!!');
+    }
+
+    public function import()
+    {
+        // php artisan make:import ItemImport --model=Item
+        // $request->validate([
+        //     'item_upload' => [
+        //         'required',
+        //         new ItemExcelRule($request->file('item_upload')),
+        //     ],
+        // ]);
+        Excel::import(
+            new ItemStockImport(),
+            request()
+                ->file('item_upload')
+                ->storeAs(
+                    'files',
+                    request()
+                        ->file('item_upload')
+                        ->getClientOriginalName()
+                )
+        );
+        return redirect()->back()->with('success', 'Excel file Imported Successfully');
     }
 }

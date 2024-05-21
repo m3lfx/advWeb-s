@@ -77,6 +77,7 @@ class CustomerController extends Controller
     public function index()
     {
         $data = Customer::orderBy('customer_id', 'DESC')->get();
+        
         return response()->json($data);
     }
     /**
@@ -177,7 +178,7 @@ class CustomerController extends Controller
             'public/images/' . $files->getClientOriginalName(),
             file_get_contents($files)
         );
-`
+
         return response()->json([
             "success" => "customer created successfully.",
             "customer" => $customer,

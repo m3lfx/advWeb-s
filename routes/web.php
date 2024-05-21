@@ -56,5 +56,7 @@ Route::prefix('admin')->group(function () {
    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
    Route::get('logout', [UserController::class, 'logout'])->middleware('auth')->name('logout');
    Route::get('search', [SearchController::class, 'search'])->name('search');
+   Route::post('import', [ItemController::class, 'import'])->name('item-import');
+   Route::post('/customer-import', [UserController::class, 'import'])->name('customer-import');
    Route::resource('items', ItemController::class);
-   Route::resource('customers', CustomerController::class);
+//    Route::resource('customers', CustomerController::class);

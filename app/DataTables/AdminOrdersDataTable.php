@@ -14,6 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 use DB;
 use App\Models\Order;
 use Debugbar;
+use DebugBar\DebugBar as DebugBarDebugBar;
 
 class AdminOrdersDataTable extends DataTable
 {
@@ -69,11 +70,16 @@ class AdminOrdersDataTable extends DataTable
         // ->groupBy('o.orderinfo_id', 'o.date_placed','o.orderinfo_id','c.fname', 'c.lname', 'c.addressline', 'o.status');
         // ->get();
         // dd($orders);
-        $orders = Order::with(['customer','items']);
-        
+        // $orders = Order::with(['customer','items'])->get();
+        // foreach($orders as $order) {
+        //     Debugbar::info($order->customer->fname);
+        //     foreach($order->items as $items) {
+        //         Debugbar::info($items->description);
+        //     }
+        // }
         // ->whereHas('items');
-        // $order_items = Order::with(['customer','items'])->get();
-        // Debugbar::info($order_items);
+        $orders = Order::with(['customer','items']);
+        Debugbar::info($orders);
         return $orders;
     }
 

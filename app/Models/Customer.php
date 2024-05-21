@@ -15,6 +15,13 @@ class Customer extends Model implements Searchable
     protected $table = 'customer';
     protected $primaryKey = 'customer_id';
     public $timestamps = false;
+    public $fillable = [
+        'lname',
+        'fname',
+        'addressline',
+        'phone',
+        'zipcode',
+    ];
 
     public function user()
     {

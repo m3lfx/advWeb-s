@@ -9,6 +9,7 @@ use App\Models\Customer;
 
 class SearchController extends Controller
 {
+    
     public function search(Request $request) {
         // dd($request->query('term'));
         $searchResults = (new Search())
@@ -16,7 +17,7 @@ class SearchController extends Controller
         ->registerModel(Customer::class, ['lname', 'fname', 'addressline'])
         ->search(trim($request->query('term')));
         // ?term=value&keyword=nike+adidas
-        dd($searchResults);
+        // dd($searchResults);
         return view('search', compact("searchResults"));
     }
 }

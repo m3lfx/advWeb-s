@@ -15,6 +15,12 @@ class Item extends Model implements Searchable
     use SoftDeletes;
     protected $table = 'item';
     protected $primaryKey = 'item_id';
+    public $fillable = [
+        'description',
+        'sell_price',
+        'cost_price',
+        'img_path',
+    ];
     public function orders()
     {
         return $this->belongsToMany(

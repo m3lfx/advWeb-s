@@ -1,7 +1,14 @@
 @extends('layouts.master')
 @section('content')
     <div id="items" class="container">
-      <a class="btn btn-primary" href="{{route('items.create')}}" role="button">add</a>
+        @include('layouts.flash-messages')
+        <a class="btn btn-primary" href="{{ route('items.create') }}" role="button">add</a>
+        <form method="POST" enctype="multipart/form-data" action="{{ route('item-import') }}">
+            {{ csrf_field() }}
+            <input type="file" id="uploadName" name="item_upload" required>
+            <button type="submit" class="btn btn-info btn-primary ">Import Excel File</button>
+
+        </form>
         <div class="card-body" style="height: 210px;">
             <input type="text" id='itemSearch' placeholder="--search--">
         </div>
@@ -36,8 +43,8 @@
                             <td>{{ $item->cost_price }}</td>
                             <td>{{ $item->quantity }}</td>
                             @if ($item->deleted_at === null)
-                                <td><a href="{{route('items.edit', $item->item_id)}}"><i class="fas fa-edit"></i></a>
-                                    <form action="{{route('items.destroy', $item->item_id)}}" method="POST">
+                                <td><a href="{{ route('items.edit', $item->item_id) }}"><i class="fas fa-edit"></i></a>
+                                    <form action="{{ route('items.destroy', $item->item_id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button><i class="fas fa-trash" style="color:red"></i></button>
@@ -47,8 +54,8 @@
                             @else
                                 <td><i class="fas fa-edit" style="color:gray"></i>
                                     <i class="fas fa-trash" style="color:gray"></i>
-                                    <a href="{{ route('items.restore', $item->id) }}"><i
-                                            class="fa-solid fa-rotate-left" style="color:blue"></i></a>
+                                    <a href="{{ route('items.restore', $item->id) }}"><i class="fa-solid fa-rotate-left"
+                                            style="color:blue"></i></a>
                                 </td>
                             @endif
                         </tr>

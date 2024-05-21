@@ -13,6 +13,8 @@ use App\DataTables\UsersDataTable;
 use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
 use DB;
 use Debugbar;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
 
 class UserController extends Controller
 {
@@ -96,12 +98,13 @@ class UserController extends Controller
         // foreach($orders as $order) {
         //     dump($order->customer->fname);
         // }
-        // $items = Order::find(10)->items;
+        // $items = Order::with('items')->get();
         // Debugbar::info($items);
         // foreach($items as $item) {
         //     Debugbar::info($item->description, $item->sell_price);
             
         // }
+       
         // dd($items);
         // $customer = Customer::where('user_id', Auth::id())->first();
         // $orders = DB::table('customer as c')
@@ -113,14 +116,39 @@ class UserController extends Controller
         //     ->groupBy('o.orderinfo_id', 'o.date_placed', 'o.status')->get();
         // // dd($orders);
         // // return view('user.profile',compact('orders'));
-        // $customers = Customer::all();
-        // $orders = Order::with('customer')->get();
-        // Debugbar::info($orders);
-        // foreach($orders as $order) {
+        // $customer_orders = Order::all();
+        // $customer_orders = Order::with('customer')->get();
+        // Debugbar::info($customer_orders);
+        // foreach($customer_orders as $order) {
 
-        //     Debugbar::info($order->customer);
+        //     Debugbar::info($order->customer->customer_id);
         // }
+        
+
         return $dataTable->render('user.profile');
         // return 'user profile';
+    }
+
+    public function import()
+    {
+        // php artisan make:import ItemImport --model=Item
+        // $request->validate([
+        //     'item_upload' => [
+        //         'required',
+        //         new ItemExcelRule($request->file('item_upload')),
+        //     ],
+        // ]);
+        Excel::import(
+            new UserImport(),
+            request()
+                ->file('customer_upload')
+                ->storeAs(
+                    'files',
+                    request()
+                        ->file('customer_upload')
+                        ->getClientOriginalName()
+                )
+        );
+        return redirect()->back()->with('success', 'Excel user file Imported Successfully');
     }
 }

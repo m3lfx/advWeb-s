@@ -56,7 +56,7 @@
     </li>
     </ul>
     {{-- <form action="{{ route('search') }}" "form-inline my-2 my-lg-0" method="POST"> --}}
-        <form action="{{ route('search') }}" "form-inline my-2 my-lg-0" method="GET">
+        <form action="{{ route('search') }}" "form-inline my-2 my-lg-0" method="GET"> 
             {{-- <form action="#" "form-inline my-2 my-lg-0" method="POST"> --}}
             {{-- @csrf --}}
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="term">
