@@ -126,3 +126,16 @@ console.log(founders.has("google")); // false
 for (var [key, value] of founders) {
 	console.log(key + " founded by " + value);
 }
+
+
+var author = {
+	firstname: "Douglas",
+	lastname: "Crockford",
+	book: {
+		title: "JavaScript- The Good Parts",
+		pages: "172"
+	}
+};
+console.log(author['firstname']); //Douglas
+console.log(author.lastname); //Crockford
+console.log(author.book.title);
