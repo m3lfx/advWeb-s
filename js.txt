@@ -40,3 +40,11 @@ console.log("lowercasestring".toUpperCase()); //"LOWERCASESTRING"
 console.log("UPPPERCASESTRING".toLowerCase());
 //"upppercasestring"
 console.log("There are no spaces in the end ".trim());
+
+function greeting(name) {
+	names = name || "John";
+	console.log(name);
+	console.log("Hello " + names);
+}
+greeting("Johnson"); // alerts "Hi Johnson";
+greeting(); //alerts "Hello John"
