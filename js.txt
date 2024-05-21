@@ -105,3 +105,10 @@ parseRequest(generateDataForScientist, validateDataForAge,
 errorHandlerForAge);
 parseRequest(generateDataForComposer, validateDataForAge,
 errorHandlerForAge);
+
+var santa = {
+	say: function () {
+		console.log("ho ho ho");
+	}
+}
+santa.say();
